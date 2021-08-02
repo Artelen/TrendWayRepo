@@ -1,2 +1,4 @@
-package com.Trend.UserService.service;public class KafkaConsumerService {
+package com.Trend.UserService.service;
+
+public class KafkaConsumerService {
 }

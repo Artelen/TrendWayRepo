@@ -1,4 +1,4 @@
-package com.Trend.UserService.config;
+package com.Trend.ProductService.config;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -9,12 +9,13 @@ import org.springframework.kafka.core.KafkaAdmin;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @Configuration
-public class KafkaTopicConfiguration {
+public class KafkaTopicConfig {
     @Value(value = "${kafka.bootstrapAddress}")
     private String bootstrapAddress;
-    @Value(value = "${kafka.topic}")
-    private String topic;
+    @Value(value = "${kafka.topic-delete-product}")
+    private String topicDeleteProduct;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -25,6 +26,7 @@ public class KafkaTopicConfiguration {
 
     @Bean
     public NewTopic topic1() {
-        return new NewTopic(topic, 1, (short) 1);
+        return new NewTopic(topicDeleteProduct, 1, (short) 1);
     }
 }
+

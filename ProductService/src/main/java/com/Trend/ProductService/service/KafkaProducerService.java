@@ -1,6 +1,6 @@
-package com.Trend.UserService.service;
+package com.Trend.ProductService.service;
 
-import com.Trend.UserService.config.KafkaProducerConfig;
+import com.Trend.ProductService.event.PriceChangeEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +12,11 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    public void sendMessage(String msg, String topic){
+        kafkaTemplate.send(topic, msg);
+    }
 
-    public void sendMessage(String msg,String topic){
+    public void sendChangePriceMessage(PriceChangeEvent msg, String topic){
         kafkaTemplate.send(topic, msg);
     }
 }
