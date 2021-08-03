@@ -7,6 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Basket-Service" />
+        <module name="NotificationService" />
+        <module name="CompanyService" />
         <module name="ProductService" />
         <module name="User-Service" />
         <module name="GatewayService" />
@@ -14,7 +16,9 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Basket-Service" target="11" />
+      <module name="CompanyService" target="11" />
       <module name="GatewayService" target="11" />
+      <module name="NotificationService" target="11" />
       <module name="ProductService" target="11" />
       <module name="User-Service" target="11" />
     </bytecodeTargetLevel>
@@ -22,7 +26,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Basket-Service" options="-parameters" />
+      <module name="CompanyService" options="-parameters" />
       <module name="GatewayService" options="-parameters" />
+      <module name="NotificationService" options="-parameters" />
       <module name="ProductService" options="-parameters" />
       <module name="User-Service" options="-parameters" />
     </option>
