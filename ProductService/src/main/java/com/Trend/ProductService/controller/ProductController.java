@@ -37,4 +37,11 @@ public class ProductController {
         productService.changeSalesPrice(id,price);
     }
 
+    @PutMapping("/changeStock")
+    public  void changeStockCount(@RequestParam String id,@RequestParam int stockCount)
+    {
+        System.out.println(String.format("ProductController :: changeStock :: ProductId = %s  Stock = %s",id,stockCount));
+        productService.changeStockCount(id,stockCount);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.Trend.ProductService.service;
 
 import com.Trend.ProductService.entity.Product;
 import com.Trend.ProductService.event.PriceChangeEvent;
+import com.Trend.ProductService.event.StockChangeEvent;
 import com.Trend.ProductService.reporsitory.ProductRepository;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
@@ -71,5 +72,17 @@ public class ProductService {
         Product product=productRepository.findByBarcode(barcode);
         productRepository.deleteByBarcode(barcode);
         kafkaService.sendMessage(product.getId().toString(), topicName);
+    }
+
+    public void changeStockCount(String id,int newStockCount)
+    {
+        if(newStockCount<0)
+            throw new RuntimeException(String.format("newStockCount cant be lower than 0"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Product : %s couldnt found",id)));
+        int oldStock=product.getStockCount();
+        product.setStockCount(newStockCount);
+        productRepository.save(product);
+        StockChangeEvent stockChangeEvent=new StockChangeEvent(id,oldStock,newStockCount);
+        kafkaService.sendStockChangeEvent(stockChangeEvent,"StockChange");
     }
 }

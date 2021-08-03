@@ -19,6 +19,9 @@ public class Product {
     private String description;
     @Field
     private double salesPrice;
+    @Field
+    private int stockCount;
+
 
     public Product() {
     }
@@ -27,6 +30,15 @@ public class Product {
         this.barcode = barcode;
         this.description = description;
         this.salesPrice = salesPrice;
+        this.stockCount=0;
+    }
+
+    public int getStockCount() {
+        return stockCount;
+    }
+
+    public void setStockCount(int stockCount) {
+        this.stockCount = stockCount;
     }
 
     public String getId() {
