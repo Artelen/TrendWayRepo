@@ -21,16 +21,26 @@ public class Product {
     private double salesPrice;
     @Field
     private int stockCount;
+    @Field
+    private Long companyId;
 
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
 
     public Product() {
     }
 
-    public Product(String barcode, String description, double salesPrice) {
+    public Product(String barcode, String description, double salesPrice,Long companyId) {
         this.barcode = barcode;
         this.description = description;
         this.salesPrice = salesPrice;
         this.stockCount=0;
+        this.companyId=companyId;
     }
 
     public int getStockCount() {

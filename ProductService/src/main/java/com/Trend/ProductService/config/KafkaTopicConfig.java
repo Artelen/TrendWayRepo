@@ -28,5 +28,13 @@ public class KafkaTopicConfig {
     public NewTopic topic1() {
         return new NewTopic(topicDeleteProduct, 1, (short) 1);
     }
+    @Bean
+    public NewTopic topic2() {
+        return new NewTopic("changeSalesPrice", 1, (short) 1);
+    }
+    @Bean
+    public NewTopic topic3() {
+        return new NewTopic("stockChange", 1, (short) 1);
+    }
 }
 
