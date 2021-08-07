@@ -1,17 +1,18 @@
-package com.Trend.NotificationService.event;
+package com.Trend.BasketService.event;
 
-public class StockCountLessThanThreeEvent {
+public class PriceDownNotificationEvent {
     public String fullName;
     public String eMail;
     public String productName;
+    public String oldPrice;
+    public String newPrice;
 
-    public StockCountLessThanThreeEvent(String fullName, String eMail, String productName) {
+    public PriceDownNotificationEvent(String fullName, String eMail, String productName, String oldPrice, String newPrice) {
         this.fullName = fullName;
         this.eMail = eMail;
         this.productName = productName;
-    }
-
-    public StockCountLessThanThreeEvent() {
+        this.oldPrice = oldPrice;
+        this.newPrice = newPrice;
     }
 
     public String getFullName() {
@@ -38,12 +39,30 @@ public class StockCountLessThanThreeEvent {
         this.productName = productName;
     }
 
+    public String getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(String oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public String getNewPrice() {
+        return newPrice;
+    }
+
+    public void setNewPrice(String newPrice) {
+        this.newPrice = newPrice;
+    }
+
     @Override
     public String toString() {
-        return "StockCountLessThanThreeEvent{" +
+        return "PriceDownNotificationEvent{" +
                 "fullName='" + fullName + '\'' +
                 ", eMail='" + eMail + '\'' +
                 ", productName='" + productName + '\'' +
+                ", oldPrice='" + oldPrice + '\'' +
+                ", newPrice='" + newPrice + '\'' +
                 '}';
     }
 }

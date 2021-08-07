@@ -1,6 +1,7 @@
 package com.Trend.NotificationService.config;
 
 import com.Trend.NotificationService.event.PriceDownNotificationEvent;
+import com.Trend.NotificationService.event.StockCountIncreasedFromZeroEvent;
 import com.Trend.NotificationService.event.StockCountLessThanThreeEvent;
 import com.Trend.NotificationService.event.StockCountZeroEvent;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -134,6 +135,37 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, StockCountZeroEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactoryStockCountZeroEvent());
+        return factory;
+    }
+
+    public ConsumerFactory<String, StockCountIncreasedFromZeroEvent> consumerFactoryStockCountIncreasedFromZeroEvent() {
+        JsonDeserializer<StockCountIncreasedFromZeroEvent> jsonDeserializer = new JsonDeserializer<>(StockCountIncreasedFromZeroEvent.class);
+        jsonDeserializer.setRemoveTypeHeaders(false);
+        jsonDeserializer.addTrustedPackages("*");
+        jsonDeserializer.setUseTypeMapperForKey(true);
+
+        Map<String, Object> props = new HashMap<>();
+        props.put(
+                org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                bootstrapAddress);
+        props.put(
+                org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG,
+                "groupId");
+        props.put(
+                org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+                StringDeserializer.class);
+        props.put(
+                org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                JsonDeserializer.class);
+
+        return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), jsonDeserializer);
+
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, StockCountIncreasedFromZeroEvent> kafkaListenerContainerFactoryStockCountIncreasedFromZeroEvent() {
+        ConcurrentKafkaListenerContainerFactory<String, StockCountIncreasedFromZeroEvent> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactoryStockCountIncreasedFromZeroEvent());
         return factory;
     }
 }

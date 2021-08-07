@@ -11,6 +11,9 @@ public class StockCountZeroEvent {
         this.productName = productName;
     }
 
+    public StockCountZeroEvent() {
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -33,5 +36,14 @@ public class StockCountZeroEvent {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    @Override
+    public String toString() {
+        return "StockCountZeroEvent{" +
+                "fullName='" + fullName + '\'' +
+                ", eMail='" + eMail + '\'' +
+                ", productName='" + productName + '\'' +
+                '}';
     }
 }

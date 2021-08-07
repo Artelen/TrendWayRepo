@@ -4,6 +4,8 @@ import com.Trend.ProductService.entity.Product;
 import com.Trend.ProductService.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("product")
 public class ProductController {
@@ -15,6 +17,10 @@ public class ProductController {
     public Product findById(@RequestParam String id){
         System.out.println(String.format("ProductController :: findById :: ProductId = %s",id));
         return this.productService.findById(id);
+    }
+    @GetMapping
+    public List<Product> findAllProducts() {
+        return productService.findAll();
     }
 
     @PostMapping("/create")
@@ -43,5 +49,6 @@ public class ProductController {
         System.out.println(String.format("ProductController :: changeStock :: ProductId = %s  Stock = %s",id,stockCount));
         productService.changeStockCount(id,stockCount);
     }
+
 
 }

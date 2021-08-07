@@ -14,15 +14,12 @@ public class CargoOffer {
     @GeneratedValue(strategy = UNIQUE)
     private String id;
     @Field
-    private String companyId;
-    @Field
     @QueryIndexed
     private String cargoName;
     @Field
     private double discountPercentage;
 
-    public CargoOffer(String companyId, String cargoName, double discountPercentage) {
-        this.companyId = companyId;
+    public CargoOffer(String cargoName, double discountPercentage) {
         this.cargoName = cargoName;
         this.discountPercentage = discountPercentage;
     }
@@ -33,14 +30,6 @@ public class CargoOffer {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
     }
 
     public String getCargoName() {
@@ -63,7 +52,6 @@ public class CargoOffer {
     public String toString() {
         return "CargoOffer{" +
                 "id='" + id + '\'' +
-                ", companyId='" + companyId + '\'' +
                 ", cargoName='" + cargoName + '\'' +
                 ", discountPercentage=" + discountPercentage +
                 '}';

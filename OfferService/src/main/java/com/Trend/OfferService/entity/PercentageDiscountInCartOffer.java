@@ -13,15 +13,13 @@ public class PercentageDiscountInCartOffer {
     @Id
     @GeneratedValue(strategy = UNIQUE)
     private String id;
-    @Field
-    private String companyId;
+
     @Field
     private double discountPercentage;
     @Field
     private final Set<String> includedProducts;
 
-    public PercentageDiscountInCartOffer(String companyId, double discountPercentage, Set<String> includedProducts) {
-        this.companyId = companyId;
+    public PercentageDiscountInCartOffer(double discountPercentage, Set<String> includedProducts) {
         this.discountPercentage = discountPercentage;
         this.includedProducts = includedProducts;
     }
@@ -32,14 +30,6 @@ public class PercentageDiscountInCartOffer {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
     }
 
     public double getDiscountPercentage() {
@@ -54,11 +44,14 @@ public class PercentageDiscountInCartOffer {
         return includedProducts;
     }
 
+    public void addProduct(String id)
+    {
+        includedProducts.add(id);
+    }
     @Override
     public String toString() {
         return "PercentageDiscountInCartOffer{" +
                 "id='" + id + '\'' +
-                ", companyId='" + companyId + '\'' +
                 ", discountPercentage=" + discountPercentage +
                 ", includedProducts=" + includedProducts +
                 '}';

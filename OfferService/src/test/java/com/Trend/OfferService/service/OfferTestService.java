@@ -27,7 +27,7 @@ public class OfferTestService {
     @Test
     public void createCargoOffer() throws InterruptedException
     {
-        CargoOffer cargoOffer =new CargoOffer("2","A",15);
+        CargoOffer cargoOffer =new CargoOffer("A",15);
         CargoOffer cargoOfferReturned= offerService.create(cargoOffer);
         System.out.println(cargoOfferReturned);
     }
@@ -36,7 +36,7 @@ public class OfferTestService {
     {
         Set<String> products=new HashSet<>();
         products.add("p1");
-        PercentageDiscountInCartOffer percentageDiscountInCartOffer=new PercentageDiscountInCartOffer("2",20,products);
+        PercentageDiscountInCartOffer percentageDiscountInCartOffer=new PercentageDiscountInCartOffer(20,products);
         PercentageDiscountInCartOffer percentageDiscountInCartOfferReturned= offerService.create(percentageDiscountInCartOffer);
         System.out.println(percentageDiscountInCartOfferReturned);
     }

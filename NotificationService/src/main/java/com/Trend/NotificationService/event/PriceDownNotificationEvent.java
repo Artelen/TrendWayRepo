@@ -15,6 +15,9 @@ public class PriceDownNotificationEvent {
         this.newPrice = newPrice;
     }
 
+    public PriceDownNotificationEvent() {
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -53,5 +56,16 @@ public class PriceDownNotificationEvent {
 
     public void setNewPrice(String newPrice) {
         this.newPrice = newPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "PriceDownNotificationEvent{" +
+                "fullName='" + fullName + '\'' +
+                ", eMail='" + eMail + '\'' +
+                ", productName='" + productName + '\'' +
+                ", oldPrice='" + oldPrice + '\'' +
+                ", newPrice='" + newPrice + '\'' +
+                '}';
     }
 }

@@ -1,17 +1,14 @@
-package com.Trend.NotificationService.event;
+package com.Trend.BasketService.event;
 
-public class StockCountLessThanThreeEvent {
+public class StockCountZeroEvent {
     public String fullName;
     public String eMail;
     public String productName;
 
-    public StockCountLessThanThreeEvent(String fullName, String eMail, String productName) {
+    public StockCountZeroEvent(String fullName, String eMail, String productName) {
         this.fullName = fullName;
         this.eMail = eMail;
         this.productName = productName;
-    }
-
-    public StockCountLessThanThreeEvent() {
     }
 
     public String getFullName() {
@@ -40,7 +37,7 @@ public class StockCountLessThanThreeEvent {
 
     @Override
     public String toString() {
-        return "StockCountLessThanThreeEvent{" +
+        return "StockCountZeroEvent{" +
                 "fullName='" + fullName + '\'' +
                 ", eMail='" + eMail + '\'' +
                 ", productName='" + productName + '\'' +

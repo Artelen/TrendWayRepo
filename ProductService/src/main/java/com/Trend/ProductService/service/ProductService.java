@@ -15,6 +15,8 @@ import java.util.List;
 public class ProductService {
     @Value("${kafka.topic-delete-product}")
     private String topicName;
+    @Value("${stockNotificationThreshold}")
+    private int stockNotificationThreshold;
 
     private final ProductRepository productRepository;
     private final KafkaProducerService kafkaService;
@@ -57,6 +59,8 @@ public class ProductService {
         productRepository.save(product);
         PriceChangeEvent changeModel=new PriceChangeEvent(productId.toString(),oldPrice,Price);
         kafkaService.sendChangePriceMessage(changeModel, "changeSalesPrice");
+
+
     }
 
     public void deleteById(String id) {
@@ -82,7 +86,12 @@ public class ProductService {
         int oldStock=product.getStockCount();
         product.setStockCount(newStockCount);
         productRepository.save(product);
-        StockChangeEvent stockChangeEvent=new StockChangeEvent(id,oldStock,newStockCount);
-        kafkaService.sendStockChangeEvent(stockChangeEvent,"StockChange");
+        //Stock 3'ten aşağı düşerse bildirim yolla veya 0 iken yükselirse.
+        if(newStockCount<stockNotificationThreshold && oldStock >=stockNotificationThreshold ||(oldStock==0 && newStockCount>0))
+        {
+            StockChangeEvent stockChangeEvent=new StockChangeEvent(id,oldStock,newStockCount);
+            kafkaService.sendStockChangeEvent(stockChangeEvent,"StockChange");
+        }
+
     }
 }

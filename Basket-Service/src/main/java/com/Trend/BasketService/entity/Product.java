@@ -9,6 +9,13 @@ public class Product {
     private int quantity;
     private double price;
 
+    public Product(String id) {
+        this.id = id;
+    }
+
+    public Product() {
+    }
+
     public Product(String id, String name, String imageUrl, int quantity, double price) {
         this.id = id;
         this.name = name;

@@ -22,6 +22,19 @@ public class OfferService {
     {
         return cargoOfferRepository.save(cargoOffer);
     }
+    public void deleteOfferById(String offerId)
+    {
+        cargoOfferRepository.deleteById(offerId);
+        percentageDiscountInCartOfferRepository.deleteById(offerId);
+    }
+    public CargoOffer findCargoOfferById(String id)
+    {
+        return cargoOfferRepository.findById(id).orElseThrow(()->new RuntimeException("Cargo Offer not found id:"+id));
+    }
+    public PercentageDiscountInCartOffer findCartOffer(String id)
+    {
+        return percentageDiscountInCartOfferRepository.findById(id).orElseThrow(()->new RuntimeException("Cart Offer not found id:"+id));
+    }
     public PercentageDiscountInCartOffer create(PercentageDiscountInCartOffer percentageDiscountInCartOffer)
     {
         return percentageDiscountInCartOfferRepository.save(percentageDiscountInCartOffer);
@@ -32,5 +45,13 @@ public class OfferService {
     }
     public List<PercentageDiscountInCartOffer> findAllPercentageDiscountInCartOffers() {
         return this.percentageDiscountInCartOfferRepository.findAll();
+    }
+
+    public void includeProductToCartOffer(String offerId, String productId)
+    {
+        PercentageDiscountInCartOffer cartOffer= percentageDiscountInCartOfferRepository.findById(offerId).orElseThrow(()->new RuntimeException("Offer could not be found, ID:"+offerId));
+        cartOffer.addProduct(productId);
+        percentageDiscountInCartOfferRepository.save(cartOffer);
+
     }
 }

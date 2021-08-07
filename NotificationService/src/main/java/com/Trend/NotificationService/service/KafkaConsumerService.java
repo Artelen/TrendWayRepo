@@ -1,6 +1,7 @@
 package com.Trend.NotificationService.service;
 
 import com.Trend.NotificationService.event.PriceDownNotificationEvent;
+import com.Trend.NotificationService.event.StockCountIncreasedFromZeroEvent;
 import com.Trend.NotificationService.event.StockCountLessThanThreeEvent;
 import com.Trend.NotificationService.event.StockCountZeroEvent;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,6 +14,7 @@ public class KafkaConsumerService {
     public void listen(Object msg) {
         System.out.println(msg);
     }
+
     @KafkaListener(topics = "priceDownNotification", groupId = "group-id", containerFactory = "kafkaListenerContainerFactoryPriceDownNotificationEvent")
     public void listenSendEmailNotification(PriceDownNotificationEvent msg)
     {
@@ -26,9 +28,15 @@ public class KafkaConsumerService {
         System.out.format("sendEmailNotification :: StockCountLessThanThree ::  %s\n", msg.toString());
     }
 
-    @KafkaListener(topics = "StockCountLessThanThree", groupId = "group-id", containerFactory = "kafkaListenerContainerFactoryStockCountZeroEvent")
+    @KafkaListener(topics = "StockCountZero", groupId = "group-id", containerFactory = "kafkaListenerContainerFactoryStockCountZeroEvent")
     public void listenSendEmailNotification(StockCountZeroEvent msg)
     {
         System.out.format("sendEmailNotification :: StockCountZero ::  %s\n", msg.toString());
+    }
+
+    @KafkaListener(topics = "StockCountIncreasedFromZero", groupId = "group-id", containerFactory = "kafkaListenerContainerFactoryStockCountIncreasedFromZeroEvent")
+    public void listenSendEmailNotification(StockCountIncreasedFromZeroEvent msg)
+    {
+        System.out.format("sendEmailNotification :: StockCountIncreasedFromZero ::  %s\n", msg.toString());
     }
 }

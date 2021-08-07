@@ -6,6 +6,9 @@ public class BasketInfo {
     private double cargoPrice;
     private double totalPrice;
 
+    public BasketInfo() {
+    }
+
     public BasketInfo(double priceWithOutDiscount, double priceWithDiscount, double cargoPrice, double totalPrice) {
         this.priceWithOutDiscount = priceWithOutDiscount;
         this.priceWithDiscount = priceWithDiscount;
