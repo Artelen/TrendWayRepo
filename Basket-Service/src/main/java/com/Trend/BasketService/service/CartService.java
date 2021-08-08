@@ -115,7 +115,7 @@ public class CartService {
         System.out.println(cartRepository.findAll().stream());
         cartRepository.findAll().stream().forEach(
                 (x)->{
-                    if(x.getProducts().contains(new Product(priceChangeEvent.getProductId())))
+                    if(x.getProducts().contains(new Product(priceChangeEvent.getProductId())) && priceChangeEvent.getNewPrice()<priceChangeEvent.getOldPrice())
                     {
                         Product product= x.getProduct(priceChangeEvent.getProductId());
                         product.setPrice(priceChangeEvent.getNewPrice());
