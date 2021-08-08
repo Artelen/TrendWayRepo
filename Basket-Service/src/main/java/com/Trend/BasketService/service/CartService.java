@@ -1,14 +1,11 @@
 package com.Trend.BasketService.service;
 
-import com.Trend.BasketService.entity.BasketInfo;
-import com.Trend.BasketService.entity.Cart;
-import com.Trend.BasketService.entity.Product;
-import com.Trend.BasketService.entity.User;
+import com.Trend.BasketService.entity.*;
 import com.Trend.BasketService.event.*;
 import com.Trend.BasketService.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.Console;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -17,11 +14,15 @@ public class CartService {
     private final CartRepository cartRepository;
     private final KafkaProducerService kafkaProducerService;
     private final UserClientService userClientService;
+    private final ProductClientService productClientService;
+    private final CartCalculaterClientService cartCalculaterClientService;
 
-    public CartService(CartRepository cartRepository, KafkaProducerService kafkaProducerService, UserClientService userClientService) {
+    public CartService(CartRepository cartRepository, KafkaProducerService kafkaProducerService, UserClientService userClientService, ProductClientService productClientService, CartCalculaterClientService cartCalculaterClientService) {
         this.cartRepository = cartRepository;
         this.kafkaProducerService = kafkaProducerService;
         this.userClientService = userClientService;
+        this.productClientService = productClientService;
+        this.cartCalculaterClientService = cartCalculaterClientService;
     }
 
     public Cart findById(Long id)
@@ -54,10 +55,31 @@ public class CartService {
         cartRepository.deleteById(userId);
     }
 
+    public void addProduct(Long userId ,String productId)
+    {
+        ProductEntity productEntity=productClientService.getUser(productId);
+        Product product = new Product(productEntity.getId(),productEntity.getDescription(),"url",1,productEntity.getSalesPrice());
+        Cart cart= cartRepository.findById(userId).orElse(new Cart(userId,new HashSet<Product>(),new BasketInfo()));
+        cart.addProduct(product);
+        cart=this.calculateBasketInfo(cart);
+        cartRepository.save(cart);
+    }
+
+    public void removeProduct(Long userId,String productId)
+    {
+        ProductEntity productEntity=productClientService.getUser(productId);
+        Product product = new Product(productEntity.getId());
+        Cart cart= cartRepository.findById(userId).orElseThrow(()->new RuntimeException("There is no Cart to remove from it."));
+        cart.removeProduct(product);
+        cart=this.calculateBasketInfo(cart);
+        cartRepository.save(cart);
+    }
+
     public void addProduct(Long userId ,Product product)
     {
         Cart cart= cartRepository.findById(userId).orElse(new Cart(userId,new HashSet<Product>(),new BasketInfo()));
         cart.addProduct(product);
+        cart=this.calculateBasketInfo(cart);
         cartRepository.save(cart);
     }
 
@@ -65,6 +87,7 @@ public class CartService {
     {
         Cart cart= cartRepository.findById(userId).orElseThrow(()->new RuntimeException("There is no Cart to remove from it."));
         cart.removeProduct(product);
+        cart=this.calculateBasketInfo(cart);
         cartRepository.save(cart);
     }
 
@@ -72,6 +95,7 @@ public class CartService {
     {
         Cart cart = cartRepository.findById(userId).orElseThrow(()->new RuntimeException("There is no Cart to clear it."));
         cart.clearCart();
+        cart=this.calculateBasketInfo(cart);
         cartRepository.save(cart);
     }
 
@@ -95,6 +119,8 @@ public class CartService {
                     {
                         Product product= x.getProduct(priceChangeEvent.getProductId());
                         product.setPrice(priceChangeEvent.getNewPrice());
+                        Cart cart=this.calculateBasketInfo(x);
+                        x.setBasketInfo(cart.getBasketInfo());
                         this.updateCart(x);
                         User user = userClientService.getUser(x.getUserId());
                         PriceDownNotificationEvent priceDownNotificationEvent = new PriceDownNotificationEvent(
@@ -154,8 +180,12 @@ public class CartService {
         );
 
     }
-    public void calculateBasketInfo(Cart cart)
+    public Cart calculateBasketInfo(Cart cart)
     {
-
+        List<Product> list=new ArrayList<>();
+        cart.getProducts().stream().forEach((x)->list.add(x));
+        BasketInfo basketInfo= cartCalculaterClientService.calculateBasketInfo(list);
+        cart.setBasketInfo(basketInfo);
+        return cart;
     }
 }

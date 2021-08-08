@@ -17,11 +17,17 @@ public class CargoOffer {
     @QueryIndexed
     private String cargoName;
     @Field
+    private double price;
+    @Field
     private double discountPercentage;
+    @Field
+    private double priceThreshold;
 
-    public CargoOffer(String cargoName, double discountPercentage) {
+    public CargoOffer(String cargoName, double price, double discountPercentage, double priceThreshold) {
         this.cargoName = cargoName;
+        this.price = price;
         this.discountPercentage = discountPercentage;
+        this.priceThreshold = priceThreshold;
     }
 
     public String getId() {
@@ -40,6 +46,14 @@ public class CargoOffer {
         this.cargoName = cargoName;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public double getDiscountPercentage() {
         return discountPercentage;
     }
@@ -48,12 +62,22 @@ public class CargoOffer {
         this.discountPercentage = discountPercentage;
     }
 
+    public double getPriceThreshold() {
+        return priceThreshold;
+    }
+
+    public void setPriceThreshold(double priceThreshold) {
+        this.priceThreshold = priceThreshold;
+    }
+
     @Override
     public String toString() {
         return "CargoOffer{" +
                 "id='" + id + '\'' +
                 ", cargoName='" + cargoName + '\'' +
+                ", price=" + price +
                 ", discountPercentage=" + discountPercentage +
+                ", priceThreshold=" + priceThreshold +
                 '}';
     }
 }

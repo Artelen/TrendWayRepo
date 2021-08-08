@@ -1,7 +1,6 @@
 package com.Trend.OfferService.entity;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.couchbase.core.index.QueryIndexed;
 import org.springframework.data.couchbase.core.mapping.Field;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 
@@ -13,15 +12,23 @@ public class PercentageDiscountInCartOffer {
     @Id
     @GeneratedValue(strategy = UNIQUE)
     private String id;
-
     @Field
     private double discountPercentage;
     @Field
-    private final Set<String> includedProducts;
+    private  Set<String> includedProducts;
 
     public PercentageDiscountInCartOffer(double discountPercentage, Set<String> includedProducts) {
         this.discountPercentage = discountPercentage;
         this.includedProducts = includedProducts;
+    }
+
+    public PercentageDiscountInCartOffer(String id, double discountPercentage, Set<String> includedProducts) {
+        this.id = id;
+        this.discountPercentage = discountPercentage;
+        this.includedProducts = includedProducts;
+    }
+
+    public PercentageDiscountInCartOffer() {
     }
 
     public String getId() {

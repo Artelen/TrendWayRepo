@@ -41,15 +41,15 @@ public class CartController {
         return cartService.findAllCarts();
     }
     @PostMapping("/addProduct")
-    public void addProduct(@RequestParam Long userId, @RequestBody Product product)
+    public void addProduct(@RequestParam Long userId, @RequestParam String productId)
     {
-        cartService.addProduct(userId,product);
+        cartService.addProduct(userId,productId);
     }
 
     @PostMapping("/removeProduct")
-    public void removeProduct(@RequestParam Long userId, @RequestBody Product product)
+    public void removeProduct(@RequestParam Long userId, @RequestParam String productId)
     {
-        cartService.removeProduct(userId,product);
+        cartService.removeProduct(userId,productId);
     }
 
     @PostMapping("/clearCart")

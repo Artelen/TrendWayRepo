@@ -27,7 +27,7 @@ public class OfferTestService {
     @Test
     public void createCargoOffer() throws InterruptedException
     {
-        CargoOffer cargoOffer =new CargoOffer("A",15);
+        CargoOffer cargoOffer =new CargoOffer("A",15,100,50);
         CargoOffer cargoOfferReturned= offerService.create(cargoOffer);
         System.out.println(cargoOfferReturned);
     }

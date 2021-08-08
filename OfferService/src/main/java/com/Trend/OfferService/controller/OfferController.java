@@ -1,6 +1,8 @@
 package com.Trend.OfferService.controller;
 
 import com.Trend.OfferService.entity.CargoOffer;
+import com.Trend.OfferService.entity.CargoOfferList;
+import com.Trend.OfferService.entity.CartOfferList;
 import com.Trend.OfferService.entity.PercentageDiscountInCartOffer;
 import com.Trend.OfferService.service.OfferService;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +27,17 @@ public class OfferController {
         System.out.println(String.format("OfferController :: findById :: CartOfferId = %s",id));
         return this.offerService.findCartOffer(id);
     }
-    @GetMapping("/CargoOffers")
-    public List<CargoOffer> findAllCargoOffers() {
-        return offerService.findAllCargoOffers();
+    @GetMapping(path="/CargoOffers",produces = "application/json")
+    public CargoOfferList findAllCargoOffers() {
+        List<CargoOffer> list=offerService.findAllCargoOffers();
+        CargoOfferList wrapper=new CargoOfferList(list);
+        return wrapper;
     }
-    @GetMapping("/CartOffers")
-    public List<PercentageDiscountInCartOffer> findAllCartOffers() {
-        return offerService.findAllPercentageDiscountInCartOffers();
+    @GetMapping(path = "/CartOffers",produces = "application/json")
+    public CartOfferList findAllCartOffers() {
+        List<PercentageDiscountInCartOffer> list=offerService.findAllPercentageDiscountInCartOffers();
+        CartOfferList wrapper=new CartOfferList(list);
+        return wrapper;
     }
 
     @PostMapping("/createCargoOffer")
