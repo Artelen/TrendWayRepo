@@ -87,7 +87,7 @@ public class ProductService {
         product.setStockCount(newStockCount);
         productRepository.save(product);
         //Stock 3'ten aşağı düşerse bildirim yolla veya 0 iken yükselirse.
-        if(newStockCount<stockNotificationThreshold && oldStock >=stockNotificationThreshold ||(oldStock==0 && newStockCount>0))
+        if(newStockCount<stockNotificationThreshold && oldStock >=stockNotificationThreshold ||(oldStock==0 && newStockCount>0) ||(newStockCount==0 && oldStock>0))
         {
             StockChangeEvent stockChangeEvent=new StockChangeEvent(id,oldStock,newStockCount);
             kafkaService.sendStockChangeEvent(stockChangeEvent,"StockChange");

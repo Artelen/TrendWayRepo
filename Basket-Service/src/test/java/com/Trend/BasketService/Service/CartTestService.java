@@ -41,4 +41,33 @@ public class CartTestService {
         System.out.println(cartService.findAllCarts());
         Assertions.assertEquals(3, cartRepository.count());
     }
+    @Test
+    public void clearCart()
+    {
+        Product p1=new Product("1","p1","url",1,10);
+        cartService.addProduct(1L,p1);
+        cartService.clearCart(1L);
+        Cart cart = cartService.findById(1L);
+        Assertions.assertEquals(0, cart.getProducts().size());
+
+    }
+    @Test
+    public void addProduct()
+    {
+        cartService.deleteCartByUserId(1L);
+        Product p1=new Product("1","p1","url",1,10);
+        cartService.addProduct(1L,p1);
+        Cart cart = cartService.findById(1L);
+        Assertions.assertEquals(1, cart.getProducts().size());
+    }
+    @Test
+    public void removeProduct()
+    {
+        cartService.deleteCartByUserId(1L);
+        Product p1=new Product("1","p1","url",1,10);
+        cartService.addProduct(1L,p1);
+        cartService.removeProduct(1L,p1);
+        Cart cart = cartService.findById(1L);
+        Assertions.assertEquals(0, cart.getProducts().size());
+    }
 }

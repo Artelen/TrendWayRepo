@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 public class OfferTestService {
     private final OfferService offerService;
@@ -29,7 +31,7 @@ public class OfferTestService {
     {
         CargoOffer cargoOffer =new CargoOffer("A",15,100,50);
         CargoOffer cargoOfferReturned= offerService.create(cargoOffer);
-        System.out.println(cargoOfferReturned);
+        assertEquals("A", cargoOfferReturned.getCargoName());
     }
     @Test
     public void createPercentageDiscountOffer() throws InterruptedException
@@ -38,16 +40,7 @@ public class OfferTestService {
         products.add("p1");
         PercentageDiscountInCartOffer percentageDiscountInCartOffer=new PercentageDiscountInCartOffer(20,products);
         PercentageDiscountInCartOffer percentageDiscountInCartOfferReturned= offerService.create(percentageDiscountInCartOffer);
-        System.out.println(percentageDiscountInCartOfferReturned);
+        assertEquals(true, percentageDiscountInCartOfferReturned.getIncludedProducts().contains("p1"));
     }
-    @Test
-    public void findAllCargoOffers() throws InterruptedException
-    {
-        System.out.println(offerService.findAllCargoOffers());
-    }
-    @Test
-    public void findAllPercentageDiscountInCartOffers() throws InterruptedException
-    {
-        System.out.println(offerService.findAllPercentageDiscountInCartOffers());
-    }
+
 }
